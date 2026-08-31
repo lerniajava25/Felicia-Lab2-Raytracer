@@ -1,5 +1,28 @@
 package org.raytracer;
 
-public class Vector3D {
+public record Vector3D(double x, double y, double z) {
+    public Vector3D add(Vector3D other) {
+        return new Vector3D(x + other.x, y + other.y, z + other.z);
+    }
 
+    public Vector3D subtract(Vector3D other) {
+        return new Vector3D(x - other.x, y - other.y, z - other.z);
+    }
+
+    public Vector3D scale(double s) {
+        return new Vector3D(x * s, y * s, z * s);
+    }
+
+    public double dot(Vector3D other) {
+        return x * other.x + y * other.y + z * other.z;
+    }
+
+    public double length() {
+        return Math.sqrt(this.dot(this));
+    }
+
+    public Vector3D normalize() {
+        double len = length();
+        return new Vector3D(x / len, y / len, z / len);
+    }
 }
