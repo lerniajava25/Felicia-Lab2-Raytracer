@@ -25,4 +25,11 @@ public record Vector3D(double x, double y, double z) {
         double len = length();
         return new Vector3D(x / len, y / len, z / len);
     }
+
+    public Vector3D cross(Vector3D other) {
+        double newX = y * other.z - z * other.y;
+        double newY = z * other.x - x * other.z;
+        double newZ = x * other.y - y * other.x;
+        return new Vector3D(newX, newY, newZ);
+    }
 }
