@@ -1,4 +1,4 @@
-package org.raytracer;
+package org.raytracer.math;
 
 public record Color(double r, double g, double b) {
     public Color add(Color other) {

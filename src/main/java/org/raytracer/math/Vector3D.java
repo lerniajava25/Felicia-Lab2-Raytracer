@@ -1,4 +1,4 @@
-package org.raytracer;
+package org.raytracer.math;
 
 public record Vector3D(double x, double y, double z) {
     public Vector3D add(Vector3D other) {
