@@ -3,16 +3,26 @@ package org.raytracer;
 import org.raytracer.geometry.Sphere;
 import org.raytracer.geometry.Triangle;
 
+import org.raytracer.io.BmpWriter;
+import org.raytracer.light.PointLight;
 import org.raytracer.math.Vector3D;
 import org.raytracer.math.Color;
+import org.raytracer.render.Scene;
 
 
 import java.io.IOException;
 
 public class Main {
     static void main() {
-        //Bakgrund med vit bakgrundsfärg
-        Scene scene = new Scene(new Color (255, 255, 255));
+
+        //Ljuskälla
+        PointLight light = new PointLight(
+                new Vector3D(5, 5, -3),
+                new Color(255,255, 255)
+        );
+
+        //Bakgrund
+        Scene scene = new Scene(new Color (200, 200, 200), light);
 
         //Lila "Sphere"
         scene.addShape(new Sphere(

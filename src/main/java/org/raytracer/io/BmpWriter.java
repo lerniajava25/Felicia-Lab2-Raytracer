@@ -1,4 +1,4 @@
-package org.raytracer;
+package org.raytracer.io;
 
 import org.raytracer.math.Color;
 
@@ -18,7 +18,7 @@ public class BmpWriter  {
         //Gör om färgerna till int:s så att de funkar med BufferedImage
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Color color = image[x][y];
+                Color color = image[x][y].clamp();
                 int r = (int) color.r();
                 int g = (int) color.g();
                 int b = (int) color.b();

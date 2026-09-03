@@ -43,7 +43,8 @@ public class Sphere extends Shape {
         }
 
         Vector3D point = ray.pointAt(t);
+        Vector3D normal = point.subtract(center).normalize();
 
-        return Optional.of(new Intersection(t, point, color));
+        return Optional.of(new Intersection(t, point, normal, color));
     }
     }

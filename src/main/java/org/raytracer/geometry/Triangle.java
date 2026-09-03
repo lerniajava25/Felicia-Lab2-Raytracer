@@ -49,7 +49,8 @@ public class Triangle extends Shape {
 
         if (t > EPSILON) {
             Vector3D point = ray.pointAt(t);
-            return Optional.of(new Intersection(t, point, color));
+            Vector3D normal = edge1.cross(edge2).normalize();
+            return Optional.of(new Intersection(t, point, normal, color));
         } else {
             return Optional.empty();
         }
