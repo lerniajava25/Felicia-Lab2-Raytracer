@@ -10,7 +10,11 @@ public record Color(double r, double g, double b) {
     }
 
     public Color multiply(Color other) {
-        return new Color(r + other.r, g + other.g, b + other.b);
+        return new Color(
+                (r + other.r) / 255,
+                (g + other.g) / 255,
+                (b + other.b) / 255
+        );
     }
 
     //begränsar färgerna mellan giltiga värden

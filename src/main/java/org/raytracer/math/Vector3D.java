@@ -23,6 +23,9 @@ public record Vector3D(double x, double y, double z) {
 
     public Vector3D normalize() {
         double len = length();
+        if (len == 0) {
+            throw new IllegalArgumentException("Can't normalize when a vecor is zero");
+        }
         return new Vector3D(x / len, y / len, z / len);
     }
 

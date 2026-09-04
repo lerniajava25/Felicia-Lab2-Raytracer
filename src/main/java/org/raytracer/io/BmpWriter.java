@@ -28,7 +28,9 @@ public class BmpWriter  {
             }
         }
 
-        ImageIO.write(bufferedImage, "bmp", new File(filename));
-
+        boolean success = ImageIO.write(bufferedImage, "bmp", new File(filename));
+        if (!success) {
+            throw new IOException("ImageIO could not write the file" + filename);
+        }
     }
 }
