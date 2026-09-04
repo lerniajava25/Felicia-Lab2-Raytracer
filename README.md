@@ -41,13 +41,13 @@ org.raytracer
 
 # Klasser
 
-## `org.raytracer`
+### `org.raytracer`
 
 * `Main:` Bygger upp en `Scene` med ljus och former, renderar bilden och skriver ut den till en `.bmp`-fil. 
 
 ---
 
-## `org.raytracer.math`
+### `org.raytracer.math`
 
 *  `Vector3D:` Record för en 3D-vektor. Innehåller metoder för addition, subtraktion, skalning, dot-produkt, cross-produkt, längd och normalisering. Används för positioner, riktningar och ytnormaler. 
 * `Ray:` Record som representerar en stråle med en startpunkt (`origin`) och en riktning (`direction`). Metoden `pointAt(t)` ger punkten längs strålen enligt `t`: `P = O + tD`. 
@@ -55,30 +55,31 @@ org.raytracer
 
 ---
 
-## `org.raytracer.light`
-
-*`PointLight:` Representerar en punktljuskälla med en position och en färg. Används av `Scene` för att beräkna skuggor och belysning vid träffpunkter.
-
----
-
-## `org.raytracer.geometry`
+### `org.raytracer.geometry`
 
 * `Shape:`  Abstrakt basklass för alla geometriska objekt i scenen. Definierar den gemensamma metoden `hit(Ray ray)`, som returnerar en `Optional<Intersection>`. Alla former ärver från denna klass.
-*`Intersection:` Record som beskriver en träff mellan en stråle och en form: avståndet `t` längs strålen, träffpunkten `point`, ytnormalen `normal` och formens färg `color`. 
+* `Intersection:` Record som beskriver en träff mellan en stråle och en form: avståndet `t` längs strålen, träffpunkten `point`, ytnormalen `normal` och formens färg `color`. 
 * `Sphere:` Implementerar `Shape`. Ett klot definierat av en centrumpunkt och en radie. Metoden `hit()` löser skärningen med hjälp av en andragradsekvation. 
-*`Triangle:` Implementerar `Shape`. En triangel definierad av tre hörnpunkter (`v0`, `v1`, `v2`). Metoden `hit()` använder Möller–Trumbore-algoritmen för att beräkna skärning med strålen. 
+* `Triangle:` Implementerar `Shape`. En triangel definierad av tre hörnpunkter (`v0`, `v1`, `v2`). Metoden `hit()` använder Möller–Trumbore-algoritmen för att beräkna skärning med strålen. 
 
 ---
 
-## `org.raytracer.render`
+### `org.raytracer.io`
+
+* `BmpWriter:` Skriver en `Color[][]`-bild till en `.bmp`-fil med hjälp av `BufferedImage` och `ImageIO`.
+
+---
+
+## VG - Skuggor och ljuskällor
+
+### `org.raytracer.render`
 
 * `Scene:` Håller scenens tillstånd: en `List<Shape>`, en bakgrundsfärg och en `PointLight`. Ansvarar för renderingen genom att konvertera canvas-koordinater till strålar, hitta närmaste träff (`traceRay`), beräkna skuggor (`isInShadow`) och returnera en `Color[][]` som representerar den färdiga bilden. 
 
----
+### `org.raytracer.light`
 
-## `org.raytracer.io`
+* `PointLight:` Representerar en punktljuskälla med en position och en färg. Används av `Scene` för att beräkna skuggor och belysning vid träffpunkter.
 
-* `BmpWriter:` Skriver en `Color[][]`-bild till en `.bmp`-fil med hjälp av `BufferedImage` och `ImageIO`. 
 ---
 
 # Lägga till en ny `Shape`
@@ -119,11 +120,11 @@ public class Box extends Shape {
 }
 ```
 
-## 3. Implementera skärningslogiken
+## 3. Implementera "träff"-logiken
 
 Lägg till den geometriska logiken för den nya formen.
 
-Se de befintliga implementationerna som exempel:
+Se de befintliga implementationerna:
 
 - `Sphere` använder en **andragradsekvation**.
 - `Triangle` använder **Möller–Trumbore-algoritmen**.
@@ -131,17 +132,3 @@ Se de befintliga implementationerna som exempel:
 ## 4. Lägg till formen i scenen
 
 Initiera formen i `Main` och lägg till den i scenen.
-
-## VG - Skuggor och ljuskällor
-Skuggor beräknas i Scene. När en stråle från kameran träffar ett objekt vet vi träffpunkten och ytans normal. Därifrån skickas en ny “skuggstråle” mot ljuskällans position. Startpunkten för den strålen flyttas en liten bit ut så att den inte råkar krocka med sin egen yta direkt.
-
-Ljuskällan representeras av klassen “PointLight”, som bara håller en position och en färg. Den läggs in i Scene och används både för att peka ut vart skuggstrålarna ska riktas och för att avgöra vilken färg som ska blandas in i belysta ytor.
-
-Om skuggstrålen träffar ett annat objekt innan den når fram till ljuskällan betyder det att något är i vägen, och punkten ligger då i skugga. Färgen dämpas i det fallet istället för att, så att formerna fortfarande syns lite i skuggan. Om ingenting blockerar vägen beräknas färgen som vanligt, alltså genom att objektets färg kombineras med ljusets färg.
-
-
-
-
-
-
-
